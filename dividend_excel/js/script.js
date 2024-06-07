@@ -163,6 +163,7 @@ async function testFunc(){
         // method: "GET",
         headers: {
             "ngrok-skip-browser-warning": '',
+            "Access-Control-Allow-Origin": 'http://localhost:3000'
         }
     })
         .then(data => {
