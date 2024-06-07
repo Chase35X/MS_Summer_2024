@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Lato&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+<body class="cabin">
+
+    <div id="header-container">
+        <div id="title">Dividend Strategy Excel Automation</div>
+        <div id="description">Simply input a stock ticker or list of stock tickers to product an in depth excel sheet</div>
+        <div id="author">Made by Chase Lenhart ~ Morgan Stanley 2024</div>
+    </div>
+
+    <div id="body-container">
+
+        <span id="input-container">
+            <span class="body-subtext">
+                Input ticker(s) here:
+            </span>
+
+            <br>
+
+            <span class="body-subtext">
+                Tickers can be separated by comma or separated by line
+            </span>
+
+            <br>
+
+            <span id="inputBox">
+                <textarea id="tickerInput"></textarea>
+                <br>
+                <input id="emailInput" placeholder="Enter email here...">
+                <br>
+                <button id="clearButton" class="cabin">Clear input</button>
+                <button id="submitButton" class="cabin">To Excel  ➡️</button>
+                <br>
+                <button id="SP500" class="cabin">SPY</button>
+                <button id="Russell1000" class="cabin">Russell 1000</button>
+            </span>
+
+            
+        </span>
+    
+        <span id="output-container">
+
+            <span id="loadingTitle">Loading...</span>
+
+            <br>
+
+            <span id="outputText" class="">
+                
+            </span>
+
+            <br>
+
+            <span id="estimatedWaitTime">
+                
+            </span>
+        </span>
+
+    </div>
+    
+
+
+
+    <script src="/js/script.js"></script>
+</body>

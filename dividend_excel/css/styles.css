@@ -1,0 +1,148 @@
+#header-container{
+    text-align: center;
+}
+
+#body-container{
+    margin-top: 35px;
+}
+
+#header-container{
+    margin-top: 100px;
+}
+
+#title{
+    font-size: 3em;
+}
+
+#description, #author{
+    font-size: 1.5em;
+}
+
+#input-container{
+    text-align: center;
+    float: left;
+    width: 40%;
+    border: 1px black solid;
+    border-radius: 15px;
+    padding: 10px;
+    /* height: 75vh; */
+    margin-left: 50px;
+    margin-bottom: 25px;
+}
+
+#output-container{
+    float: right;
+    width: 40%;
+    border: 1px black solid;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px;
+    /* display: flex; 
+    justify-content: center;
+    align-items: center; */
+    margin-right: 50px;
+    margin-bottom: 25px;
+}
+
+textarea{
+    height: 100%;
+    height: 25em;
+    width: 80%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    resize: none;
+    text-align: left;
+    padding: 15px;
+}
+
+input{
+    padding: 10px;
+    border-radius: 5px;
+    width: 75%;
+}
+
+#inputBox{
+    height: 75vh;
+}
+
+.cabin {
+    font-family: "Cabin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+
+#title{
+    padding-bottom: 15px;
+}
+
+body{
+    background-color: #002B51;
+    color: white;
+}
+
+.body-subtext{
+    font-size: 1.5em;
+}
+
+#submitButton, #clearButton, #SP500, #Russell1000{
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+
+
+
+.loading-circle {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.loading-circle:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #000;
+    border-color: #000 transparent #000 transparent;
+    animation: loading-circle 1.2s linear infinite;
+}
+@keyframes loading-circle {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+#loadingTitle, #estimatedWaitTime {
+    display: none;
+}
+
+
+
+
+#outputText{
+    font-size: 3em;
+}
+
+#estimatedWaitTime{
+    display: none;
+    padding: 30px;
+    font-size: 1.5em;
+}
+
+#loadingTitle{
+    display:none;
+    padding: 15px;
+    font-size: 1.5em;
+}
+
+
