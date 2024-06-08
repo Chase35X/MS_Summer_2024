@@ -55,19 +55,25 @@ async function make_sheet(preset){
         tickers = tickerList
     }
 
-    
-
-
-    email = document.getElementById('emailInput').value
-
     var estimatedWaitTime = calculateEstimatedWaitTime(tickerList)
 
     setLoadingAnimation(estimatedWaitTime)
 
     console.log(tickers)
 
+    var startTime = new Date()
+    startTime = startTime.getTime()
+
     var response = await APIcall(tickers)
     console.log(response)
+
+    var endTime = new Date()
+    endTime = endTime.getTime()
+    console.log(startTime)
+    console.log(endTime)
+    console.log('Difference in time = ')
+    console.log((endTime - startTime) / 1000)
+
 
     setSuccessAnimation()
 
