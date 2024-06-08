@@ -34,22 +34,40 @@ async function make_sheet(preset){
     }
 
 
+    if(tickerList !== 'SPY' && tickerList !== 'Russell1000'){
+        var tickers = ''
+        for(var ticker = 0; ticker < tickerList.length; ticker++){
+
+            if(ticker == tickerList.length-1){
+                var tickerItem = tickerList[ticker]
+                tickers += tickerItem
+            }
+
+            else{
+                var tickerItem = tickerList[ticker]
+                tickers += tickerItem + ','
+            }
+            
+        }
+    }
+
+    else{
+        tickers = tickerList
+    }
+
+    
+
+
     email = document.getElementById('emailInput').value
 
     var estimatedWaitTime = calculateEstimatedWaitTime(tickerList)
 
     setLoadingAnimation(estimatedWaitTime)
 
-    // Input API call that makes sheet and sends email
-    var makeSheetAPIURL = 'https://chase35x.pythonanywhere.com/make_sheet?param=AAPL&email=chaselen@bu.edu'
+    console.log(tickers)
 
-    let response = await fetch(makeSheetAPIURL)
-        .then(data => {
-            return data;
-        })           //api for the get request
-    
-    const result = await response.json() 
-    console.log(result)
+    var response = await APIcall(tickers)
+    console.log(response)
 
     setSuccessAnimation()
 
@@ -81,7 +99,7 @@ function setSuccessAnimation(){
     const loading = document.getElementById('loadingTitle')
     loading.style.display = 'none'
 
-    output.innerHTML = '✅ <br> Check your email! <br> Emails can be delayed up to a few minutes, please do not retry for a little while.'
+    output.innerHTML = '✅ <br> Check your downloads above!'
 }
 
 function clearInput(){
@@ -152,27 +170,48 @@ Russell1000button.addEventListener('click', make_sheet.bind(this, 'Russell1000')
 
 
 
-// put in ngrok link
-// in header must put something look on incognito browser for it (there is a popup before you can access api link)
-// if this doesnt work must pay for ngrok
-async function testFunc(){
-    // Input API call that makes sheet and sends email
-    var url = 'https://3d08-2601-83-8100-ec80-7918-a333-bcb6-adb6.ngrok-free.app/make_sheet?tickers=AAPL,MSFT'
+
+async function APIcall(tickers){
+    var url = 'https://3d08-2601-83-8100-ec80-7918-a333-bcb6-adb6.ngrok-free.app/make_sheet?tickers=' + tickers
 
     let response = await fetch(url,{
-        // method: "GET",
-        headers: {
-            "ngrok-skip-browser-warning": '',
-            "Access-Control-Allow-Origin": 'http://localhost:3000'
+        method: "GET",
+        headers:{
+            "ngrok-skip-browser-warning": 'True'
         }
     })
-        .then(data => {
-            return data;
+        .then(response => {
+            console.log(response)
+
+            if(!response.ok){
+                throw new Error('Network response was not ok')
+            }
+
+            return response.blob();
         })           //api for the get request
 
-    const result = await response.json() 
-    console.log(result)
-    console.log(data)
+
+
+    .then(blob => {
+
+        if(blob.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
+            throw new Error('Incorrect file type received')
+        }
+        
+        const downloadURL = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.style.display = 'none'
+        a.href = downloadURL
+        a.download = 'workbook.xlsx'
+
+        document.body.appendChild(a)
+        a.click()
+
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(downloadURL)
+    })
+
+    return response
+    
 }
 
-testFunc()
