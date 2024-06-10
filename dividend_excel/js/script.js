@@ -180,7 +180,7 @@ Russell1000button.addEventListener('click', make_sheet.bind(this, 'Russell1000')
 
 
 async function APIcall(tickers){
-    var url = 'https://6864-2601-83-8100-ec80-b049-542-5641-d438.ngrok-free.app/make_sheet?tickers=' + tickers
+    var url = 'https://549f-2601-83-8100-ec80-2d3e-367d-bba4-6923.ngrok-free.app/make_sheet?tickers=' + tickers
 
     let response = await fetch(url,{
         method: "GET",
