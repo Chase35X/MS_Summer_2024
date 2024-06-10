@@ -1,4 +1,6 @@
 async function make_sheet(preset){
+    
+    clearOutputBox()
     var tickerList
 
     if(preset=='SPY'){
