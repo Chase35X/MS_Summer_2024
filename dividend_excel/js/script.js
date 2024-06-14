@@ -185,11 +185,22 @@ async function APIcall(tickers){
 
     var url = 'https://6159-2601-83-8100-ec80-2d3e-367d-bba4-6923.ngrok-free.app/make_sheet?tickers=' + tickers
 
+    const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // Set a timeout to abort the request
+    const fetchTimeout = setTimeout(() => {
+        controller.abort();
+    }, timeout);
+
     let response = await fetch(url,{
         method: "GET",
         headers:{
             "ngrok-skip-browser-warning": 'True'
-        }
+        },
+        signal: signal
     })
         .then(response => {
             console.log(response)
@@ -221,6 +232,8 @@ async function APIcall(tickers){
         document.body.removeChild(a)
         window.URL.revokeObjectURL(downloadURL)
     })
+
+    clearTimeout(fetchTimeout);
 
     return response
     
