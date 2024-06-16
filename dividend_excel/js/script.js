@@ -57,7 +57,7 @@ async function make_sheet(){
 
     for(var hundred = 0; hundred < hundreds.length; hundred++){
 
-        var hundredList = tickerList.splice(hundred*100, hundred*100 + 100)
+        var hundredList = tickerList.slice(hundred*100, hundred*100 + 100)
 
         var tickers = TICKERlistTostring(hundredList)
 
@@ -77,7 +77,7 @@ async function make_sheet(){
     }
 
     if(remainder>0){
-        var remainderList = tickerList.splice(hundreds*100, hundreds*100 + remainder)
+        var remainderList = tickerList.slice(hundreds*100, hundreds*100 + remainder)
 
         var tickers = TICKERlistTostring(remainderList)
 
