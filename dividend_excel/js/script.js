@@ -166,7 +166,7 @@ function calculateEstimatedWaitTime(tickerList){
 
 async function APIcall(tickers){
 
-    var url = 'https://6159-2601-83-8100-ec80-2d3e-367d-bba4-6923.ngrok-free.app/make_sheet?tickers=' + tickers
+    var url = 'https://bluejay-working-cattle.ngrok-free.app/make_sheet?tickers=' + tickers
 
     const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
 
