@@ -5,6 +5,19 @@ async function make_sheet(){
     
     tickerInput = document.getElementById('tickerInput').value
 
+    const regex = /[a-zA-Z]/;
+
+    if(regex.test(tickerInput)){
+        console.log('Contains a ticker')
+    } 
+
+    else{
+        setErrorAnimation()
+        return
+    }
+
+    var tickerList;
+
     if(tickerInput.includes(',')){
         tickerList = tickerInput.split(',')
 
@@ -29,25 +42,20 @@ async function make_sheet(){
     console.log(tickerList)
 
 
-    if(tickerList !== 'SPY' && tickerList !== 'Russell1000'){
-        var tickers = ''
-        for(var ticker = 0; ticker < tickerList.length; ticker++){
+    
+    var tickers = ''
+    for(var ticker = 0; ticker < tickerList.length; ticker++){
 
-            if(ticker == tickerList.length-1){
-                var tickerItem = tickerList[ticker]
-                tickers += tickerItem
-            }
-
-            else{
-                var tickerItem = tickerList[ticker]
-                tickers += tickerItem + ','
-            }
-            
+        if(ticker == tickerList.length-1){
+            var tickerItem = tickerList[ticker]
+            tickers += tickerItem
         }
-    }
 
-    else{
-        tickers = tickerList
+        else{
+            var tickerItem = tickerList[ticker]
+            tickers += tickerItem + ','
+        }
+        
     }
 
     var estimatedWaitTime = calculateEstimatedWaitTime(tickerList)
@@ -56,19 +64,8 @@ async function make_sheet(){
 
     console.log(tickers)
 
-    var startTime = new Date()
-    startTime = startTime.getTime()
-
     var response = await APIcall(tickers)
     console.log(response)
-
-    var endTime = new Date()
-    endTime = endTime.getTime()
-    console.log(startTime)
-    console.log(endTime)
-    console.log('Difference in time = ')
-    console.log((endTime - startTime) / 1000)
-
 
     setSuccessAnimation()
 
@@ -101,6 +98,19 @@ function setSuccessAnimation(){
     loading.style.display = 'none'
 
     output.innerHTML = '✅ <br> Check your downloads above!'
+}
+
+function setErrorAnimation(){
+    const output = document.getElementById('outputText')
+    output.classList.remove('loading-circle')
+
+    const waitTime = document.getElementById('estimatedWaitTime')
+    waitTime.style.display = 'none'
+
+    const loading = document.getElementById('loadingTitle')
+    loading.style.display = 'none'
+
+    output.innerHTML = '❌ <br> Sorry...there has been an error. Try again or ask Chase for help.'
 }
 
 function clearInput(){
@@ -156,21 +166,6 @@ function calculateEstimatedWaitTime(tickerList){
 
     return waitTime
 }
-
-const submitButton = document.getElementById('submitButton');
-submitButton.addEventListener('click', make_sheet);
-
-const clearButton = document.getElementById('clearButton');
-clearButton.addEventListener('click', clearInput);
-
-const SPYbutton = document.getElementById('SP500')
-SPYbutton.addEventListener('click', fillInput('SPY'))
-const Russell1000button = document.getElementById('Russell1000')
-Russell1000button.addEventListener('click', fillInput('Russell1000'))
-
-
-
-
 
 async function APIcall(tickers){
 
@@ -318,4 +313,14 @@ function fillInput(etf){
 }
 
 
+const submitButton = document.getElementById('submitButton');
+submitButton.addEventListener('click', make_sheet);
+
+const clearButton = document.getElementById('clearButton');
+clearButton.addEventListener('click', clearInput);
+
+const SPYbutton = document.getElementById('SP500')
+SPYbutton.addEventListener('click', fillInput.bind(this, 'SPY'))
+const Russell1000button = document.getElementById('Russell1000')
+Russell1000button.addEventListener('click', fillInput.bind(this, 'Russell1000'))
 
