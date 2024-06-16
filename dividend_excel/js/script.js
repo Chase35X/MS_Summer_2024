@@ -55,6 +55,9 @@ async function make_sheet(){
 
     var file
 
+    console.log(hundreds)
+    console.log(remainder)
+
     for(var hundred = 0; hundred < hundreds.length; hundred++){
 
         var hundredList = tickerList.slice(hundred*100, hundred*100 + 100)
