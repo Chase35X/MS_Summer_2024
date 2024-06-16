@@ -41,22 +41,8 @@ async function make_sheet(){
 
     console.log(tickerList)
 
-
+    // var tickers = TICKERlistTostring(tickerList)
     
-    var tickers = ''
-    for(var ticker = 0; ticker < tickerList.length; ticker++){
-
-        if(ticker == tickerList.length-1){
-            var tickerItem = tickerList[ticker]
-            tickers += tickerItem
-        }
-
-        else{
-            var tickerItem = tickerList[ticker]
-            tickers += tickerItem + ','
-        }
-        
-    }
 
     var estimatedWaitTime = calculateEstimatedWaitTime(tickerList)
 
@@ -64,7 +50,43 @@ async function make_sheet(){
 
     console.log(tickers)
 
-    var response = await APIcall(tickers)
+    var hundreds = parseInt(tickerList.length / 100)
+    var remainder = tickerList.length % 100
+
+    var file
+
+    for(var hundred = 0; hundred < hundreds.length; hundred++){
+
+        var hundredList = tickerList.splice(hundred*100, hundred*100 + 100)
+
+        var tickers = TICKERlistTostring(hundredList)
+
+        if(hundred==0){
+            file = await APIcall(tickers,null,false)
+        }
+
+        else if((hundred = hundreds.length-1) && (remainder == 0)){
+            file = await APIcall(tickers,file,true)
+        }
+
+        else{
+            file = await APIcall(tickers,file,false)
+        }
+        
+
+    }
+
+    if(remainder>0){
+        var remainderList = tickerList.splice(hundreds*100, hundreds*100 + remainder)
+
+        var tickers = TICKERlistTostring(remainderList)
+
+        file = await APIcall(tickers,file,true)
+    }
+
+
+
+    var response = file
     console.log(response)
 
     setSuccessAnimation()
@@ -72,7 +94,24 @@ async function make_sheet(){
 
 }
 
+function TICKERlistTostring(list){
+    var tickers = ''
+    for(var ticker = 0; ticker < list.length; ticker++){
 
+        if(ticker == list.length-1){
+            var tickerItem = list[ticker]
+            tickers += tickerItem
+        }
+
+        else{
+            var tickerItem = list[ticker]
+            tickers += tickerItem + ','
+        }
+        
+    }
+
+    return tickers
+}
 
 
 function setLoadingAnimation(estimatedWaitTime){
@@ -164,61 +203,157 @@ function calculateEstimatedWaitTime(tickerList){
     return waitTime
 }
 
-async function APIcall(tickers){
+async function APIcall(tickers, file, final){
 
-    var url = 'https://bluejay-working-cattle.ngrok-free.app/make_sheet?tickers=' + tickers
+    try {
 
-    const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
+        if(file == null){
+            // link to start tunnel
+            // ngrok http --domain=bluejay-working-cattle.ngrok-free.app 5000
+            var url = 'https://bluejay-working-cattle.ngrok-free.app/make_sheet?tickers=' + tickers
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+            const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
 
-    // Set a timeout to abort the request
-    const fetchTimeout = setTimeout(() => {
-        controller.abort();
-    }, timeout);
+            const controller = new AbortController();
+            const signal = controller.signal;
 
-    let response = await fetch(url,{
-        method: "GET",
-        headers:{
-            "ngrok-skip-browser-warning": 'True'
-        },
-        signal: signal
-    })
-        .then(response => {
-            console.log(response)
+            // Set a timeout to abort the request
+            const fetchTimeout = setTimeout(() => {
+                controller.abort();
+            }, timeout);
 
-            if(!response.ok){
-                throw new Error('Network response was not ok')
-            }
+            let response = await fetch(url,{
+                method: "GET",
+                headers:{
+                    "ngrok-skip-browser-warning": 'True'
+                },
+                signal: signal
+            })
 
-            return response.blob();
-        })           //api for the get request
+            .then(response => {
+                console.log(response)
+
+                if(!response.ok){
+                    throw new Error('Network response was not ok')
+                }
+
+                return response.blob();
+            })           //api for the get request
 
 
 
-    .then(blob => {
+            .then(blob => {
 
-        if(blob.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
-            throw new Error('Incorrect file type received')
+                if(blob.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
+                    throw new Error('Incorrect file type received')
+                }
+
+                if(final){
+                    const downloadURL = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.style.display = 'none'
+                    a.href = downloadURL
+                    a.download = 'workbook.xlsx'
+
+                    document.body.appendChild(a)
+                    a.click()
+
+                    document.body.removeChild(a)
+                    window.URL.revokeObjectURL(downloadURL)
+
+                    clearTimeout(fetchTimeout);
+                }
+
+                else{
+                    clearTimeout(fetchTimeout);
+
+                    return blob
+                }
+                
+                
+            })
+
+            return response
+        }
+
+        else{
+            // link to start tunnel
+            // ngrok http --domain=bluejay-working-cattle.ngrok-free.app 5000
+            var url = 'https://bluejay-working-cattle.ngrok-free.app/make_sheet?tickers=' + tickers
+
+            const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
+
+            const controller = new AbortController();
+            const signal = controller.signal;
+
+            // Set a timeout to abort the request
+            const fetchTimeout = setTimeout(() => {
+                controller.abort();
+            }, timeout);
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            let response = await fetch(url,{
+                method: "GET",
+                headers:{
+                    "ngrok-skip-browser-warning": 'True'
+                },
+                signal: signal,
+                body: formData
+            })
+
+            .then(response => {
+                console.log(response)
+
+                if(!response.ok){
+                    throw new Error('Network response was not ok')
+                }
+
+                return response.blob();
+            })           //api for the get request
+
+
+
+            .then(blob => {
+
+                if(blob.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
+                    throw new Error('Incorrect file type received')
+                }
+
+                if(final){
+                    const downloadURL = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.style.display = 'none'
+                    a.href = downloadURL
+                    a.download = 'workbook.xlsx'
+
+                    document.body.appendChild(a)
+                    a.click()
+
+                    document.body.removeChild(a)
+                    window.URL.revokeObjectURL(downloadURL)
+
+                    clearTimeout(fetchTimeout);
+                }
+
+                else{
+                    clearTimeout(fetchTimeout);
+
+                    return blob
+                }
+                
+                
+            })
+
+            return response
         }
         
-        const downloadURL = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.style.display = 'none'
-        a.href = downloadURL
-        a.download = 'workbook.xlsx'
-
-        document.body.appendChild(a)
-        a.click()
-
-        document.body.removeChild(a)
-        window.URL.revokeObjectURL(downloadURL)
-    })
-
-    clearTimeout(fetchTimeout);
-
-    return response
+    }
+    catch(err) {
+        console.error(err)
+        setErrorAnimation()
+    }
     
 }
 
