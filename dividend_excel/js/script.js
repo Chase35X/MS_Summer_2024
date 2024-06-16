@@ -56,7 +56,7 @@ async function make_sheet(){
     console.log(hundreds)
     console.log(remainder)
 
-    for(var hundred = 0; hundred < hundreds.length; hundred++){
+    for(var hundred = 0; hundred < hundreds; hundred++){
 
         var hundredList = tickerList.slice(hundred*100, hundred*100 + 100)
         console.log(hundredList)
@@ -67,7 +67,7 @@ async function make_sheet(){
             file = await APIcall(tickers,null,false)
         }
 
-        else if((hundred = hundreds.length-1) && (remainder == 0)){
+        else if((hundred == hundreds.length-1) && (remainder == 0)){
             file = await APIcall(tickers,file,true)
         }
 
@@ -339,8 +339,6 @@ async function APIcall(tickers, file, final){
                     window.URL.revokeObjectURL(downloadURL)
 
                     clearTimeout(fetchTimeout);
-
-                    return response
                 }
 
                 else{
@@ -356,8 +354,8 @@ async function APIcall(tickers, file, final){
         }
         
     }
-    catch(err) {
-        console.error(err)
+    catch(err){
+        console.log(err)
         setErrorAnimation()
     }
     
