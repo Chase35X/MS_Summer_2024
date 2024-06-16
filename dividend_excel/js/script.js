@@ -117,9 +117,6 @@ function clearInput(){
     const input = document.getElementById('tickerInput')
     input.value = ""
 
-    const emailInput = document.getElementById('emailInput')
-    emailInput.value = ""
-
     clearOutputBox()
 }
 
