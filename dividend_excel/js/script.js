@@ -48,8 +48,6 @@ async function make_sheet(){
 
     setLoadingAnimation(estimatedWaitTime)
 
-    console.log(tickers)
-
     var hundreds = Math.trunc(tickerList.length / 100)
     var remainder = tickerList.length % 100
 
@@ -61,6 +59,7 @@ async function make_sheet(){
     for(var hundred = 0; hundred < hundreds.length; hundred++){
 
         var hundredList = tickerList.slice(hundred*100, hundred*100 + 100)
+        console.log(hundredList)
 
         var tickers = TICKERlistTostring(hundredList)
 
@@ -265,6 +264,8 @@ async function APIcall(tickers, file, final){
                     window.URL.revokeObjectURL(downloadURL)
 
                     clearTimeout(fetchTimeout);
+
+                    return response
                 }
 
                 else{
@@ -338,6 +339,8 @@ async function APIcall(tickers, file, final){
                     window.URL.revokeObjectURL(downloadURL)
 
                     clearTimeout(fetchTimeout);
+
+                    return response
                 }
 
                 else{
