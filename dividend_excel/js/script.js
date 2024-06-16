@@ -50,7 +50,7 @@ async function make_sheet(){
 
     console.log(tickers)
 
-    var hundreds = parseInt(tickerList.length / 100)
+    var hundreds = Math.trunc(tickerList.length / 100)
     var remainder = tickerList.length % 100
 
     var file
