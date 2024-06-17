@@ -80,6 +80,8 @@ async function make_sheet(){
 
     if(remainder>0){
         var remainderList = tickerList.slice(hundreds*100, hundreds*100 + remainder)
+        console.log('in remainder')
+        console.log(remainderList)
 
         var tickers = TICKERlistTostring(remainderList)
 
