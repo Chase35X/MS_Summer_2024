@@ -207,7 +207,7 @@ function calculateEstimatedWaitTime(tickerList){
     return waitTime
 }
 
-async function APIcall(tickers, file, final){
+async function APIcall(tickers, file, final, totalTickers){
 
     try {
 
@@ -226,12 +226,19 @@ async function APIcall(tickers, file, final){
                 controller.abort();
             }, timeout);
 
+            const formData = new FormData();
+
+            if(final){
+                formData.append('totalTickers', totalTickers);
+            }
+
             let response = await fetch(url,{
                 method: "POST",
                 headers:{
                     "ngrok-skip-browser-warning": 'True'
                 },
-                signal: signal
+                signal: signal,
+                body: formData
             })
 
             .then(response => {
@@ -299,6 +306,10 @@ async function APIcall(tickers, file, final){
 
             const formData = new FormData();
             formData.append('file', file);
+
+            if(final){
+                formData.append('totalTickers', totalTickers);
+            }
 
             let response = await fetch(url,{
                 method: "POST",
