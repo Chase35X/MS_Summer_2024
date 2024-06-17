@@ -225,7 +225,7 @@ async function APIcall(tickers, file, final){
             }, timeout);
 
             let response = await fetch(url,{
-                method: "GET",
+                method: "POST",
                 headers:{
                     "ngrok-skip-browser-warning": 'True'
                 },
@@ -299,7 +299,7 @@ async function APIcall(tickers, file, final){
             formData.append('file', file);
 
             let response = await fetch(url,{
-                method: "GET",
+                method: "POST",
                 headers:{
                     "ngrok-skip-browser-warning": 'True'
                 },
