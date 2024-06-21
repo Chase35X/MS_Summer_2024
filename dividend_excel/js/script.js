@@ -68,7 +68,7 @@ async function make_sheet(){
         }
 
         else if((hundred == hundreds.length-1) && (remainder == 0)){
-            file = await APIcall(tickers,file,true)
+            file = await APIcall(tickers,file,true,length(tickerList))
         }
 
         else{
@@ -85,7 +85,7 @@ async function make_sheet(){
 
         var tickers = TICKERlistTostring(remainderList)
 
-        file = await APIcall(tickers,file,true)
+        file = await APIcall(tickers,file,true,length(tickerList))
     }
 
 
