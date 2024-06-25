@@ -41,6 +41,7 @@ async function make_sheet(){
 
     console.log(tickerList)
     var totalTickerLength = tickerList.length
+    console.log(totalTickerLength)
 
     // var tickers = TICKERlistTostring(tickerList)
     
