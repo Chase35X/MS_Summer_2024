@@ -238,7 +238,8 @@ async function APIcall(tickers, file, final, totalTickers){
                     "ngrok-skip-browser-warning": 'True'
                 },
                 signal: signal,
-                body: formData
+                body: formData,
+                mode: "cors"
             })
 
             .then(response => {
@@ -316,7 +317,8 @@ async function APIcall(tickers, file, final, totalTickers){
                     "ngrok-skip-browser-warning": 'True'
                 },
                 signal: signal,
-                body: formData
+                body: formData,
+                mode: "cors"
             })
 
             .then(response => {
