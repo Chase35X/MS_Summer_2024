@@ -215,7 +215,7 @@ async function APIcall(tickers, file, final, totalTickers){
 
         if(file == null){
             // ngrok http --domain=bluejay-working-cattle.ngrok-free.app 5000
-            var url = 'https://ed12-2601-83-8100-ec80-f1b1-e331-536f-398d.ngrok-free.app/make_sheet?tickers=' + tickers
+            var url = 'https://d14d-193-25-166-150.ngrok-free.app/make_sheet?tickers=' + tickers
             const timeout = 5000000000000; // Timeout in milliseconds 
 
             const controller = new AbortController();
@@ -293,7 +293,7 @@ async function APIcall(tickers, file, final, totalTickers){
         else{
             // link to start tunnel
             // ngrok http --domain=bluejay-working-cattle.ngrok-free.app 5000
-            var url = 'https://ed12-2601-83-8100-ec80-f1b1-e331-536f-398d.ngrok-free.app/make_sheet?tickers=' + tickers
+            var url = 'https://d14d-193-25-166-150.ngrok-free.app/make_sheet?tickers=' + tickers
             const timeout = 5000000000000; // Timeout in milliseconds (5 seconds)
 
             const controller = new AbortController();
